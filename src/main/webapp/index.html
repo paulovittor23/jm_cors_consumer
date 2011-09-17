@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+
+  <script type="text/javascript">
+  function consumirWebService(){
+    var destino = document.getElementById('destino_requisicao').value; 
+    var metodoHttp = document.getElementById('metodo_http').value; 
+    var status = document.getElementById('status');
+    var resposta = document.getElementById('resposta');
+    
+    status.innerHTML = "Chamando Web Service: "+destino+" utilizando o método: "+metodoHttp;
+
+    var xhr = new XMLHttpRequest(); 
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState != 4) return;
+      resposta.innerHTML = xhr.responseText;
+      resposta.style.backgroundColor = "#99FF33"; 
+    };
+    xhr.onerror = function(){
+      resposta.innerHTML = "Erro ao consumir serviços.";
+      resposta.style.backgroundColor = "#FFCC00";
+    };
+    xhr.open(metodoHttp, destino);
+    xhr.send();
+  };
+  </script>
+</head>
+<body style="font:12px verdana">
+  <h3>Exemplo de aplicação consumidora de Web Services com origem distinta</h3>
+  
+  <h3>URL do recurso a ser consumido:</h3>
+  <input type="text" id="destino_requisicao" 
+        value="http://provider.com.br:9999/recurso" style="width:300px" /> <br />
+
+  <h3>Método HTTP:</h3>
+  <select id="metodo_http">
+    <option value="get" selected="selected">get</option>
+    <option value="post">post</option>
+    <option value="put">put</option>
+    <option value="delete">delete</option>
+  </select> <br /><br />
+  
+  <input type="button" onclick="javascript:consumirWebService();" value="Realizar requisição" /> <br />
+  
+  <h3>Status da requisição:</h3> <div id="status"></div> <br />
+  <h3>Resposta recebida:</h3> <div id="resposta"></div>
+</body>
+</html>
